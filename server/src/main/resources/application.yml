@@ -1,0 +1,47 @@
+# General Application Settings
+spring:
+  application:
+    name: adaa-eventapi-example # it is used by k8s configmap to pass properties
+  banner:
+    location: banner/banner.txt
+  profiles:
+    active: dev # Default profile when none specified on command-line (-Dspring.profiles.active=...)
+  main:
+    banner-mode: log
+  output:
+    ansi: enabled
+  mvc:
+    log-request-details: true
+
+server:
+  port: 8080 # works only for embedded tomcat
+  servlet:
+    application-display-name: ADAA EventAPI Example
+    context-path: /adaa-eventapi-example
+  tomcat:
+    cache:
+      size: 40960 # cache size of Tomcat (see WebConfig.java)
+  compression:
+    enabled: false
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+
+logging:
+  level:
+    cz.kb.openbanking.adaa: DEBUG
+    org.springframework: DEBUG
+
+# Example values
+event-api-example:
+  # Example of access token
+  access-token: eyJ0eXAiOiJKV1QiLCJraWQiOiIxNjE2L3hlZk1FbEN4NHBPT0pyR3RUMmZrOG89IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJLQklEPTEyMzQ1Njc4OSIsImN0cyI6Ik9BVVRIMl9TVEFURUxFU1NfR1JBTlQiLCJhdXRoX2xldmVsIjoyLCJhdWRpdFRyYWNraW5nSWQiOiI1ODM0NTZmNS03MTIxLTRhZjItYTY1ZC1kNmIwOGYwZGE3MDgtNjg1NDM1IiwiaXNzIjoiaHR0cHM6Ly9hcGkua2IuY3ovb3Blbi9hcGkvb2F1dGgyL3YxL2FjY2Vzc190b2tlbiIsInRva2VuTmFtZSI6ImFjY2Vzc190b2tlbiIsInRva2VuX3R5cGUiOiJCZWFyZXIiLCJhdXRoR3JhbnRJZCI6IjNmWXRadXFXbnNqNHk0QVVFOEtmSUJHY091RSIsImF1ZCI6IkxPR0lOLTEyMzQiLCJuYmYiOjE1OTMwNzQ2ODAsImdyYW50X3R5cGUiOiJhdXRob3JpemF0aW9uX2NvZGUiLCJzY29wZSI6WyJvcGVuaWQiLCJsb2dpbiJdLCJhdXRoX3RpbWUiOjE1OTMwNzQ2NjMsInJlYWxtIjoiLyIsImV4cCI6MTU5MzE2MTA4MCwiaWF0IjoxNTkzMDc0NjgwLCJleHBpcmVzX2luIjo4NjQwMCwianRpIjoidHFUOGNDMjBrbVlscDREeFJVTUhsS1k0c1NrIn0=.NFNv28lhL5G17-gX4SKSVSaQExv2LbEcDfiRtM70EEfIxiYx4q0anMBIDu3MoTb_9BDaYPVRNEXtCvgnZXJml6LlVjJpxQs3rKOt1mQZjKxrDt-o55DyXPmhgl6xc462leYns_CzuiB2m5qAvZZvwSG1qQU-0IqGjL1-8uf-K8ZJFdzv5LaUGMEDGjjy8f8fnEODS63lXv6j1OQjTpskkF_trgxw-MMvfer24ruwT1Sh-xDZ8jQJJ4D_HhxJROSB6wqQhlBjjmoFwF7-_RRF8QiwoHGq1cbxmrjnIi3boCSvbvwI5gxNrRT1t-OS1qLpQFHQFpDhvPKQC7HlM5fSBw
+  # Example of client's account currency
+  currency: CZK
+  # Example subscriptions: subscriptionId (key) and IBAN (value)
+  subscriptions:
+    93d0a30d-cb6a-46db-9242-a3586e83bdc0: CZ1301000901147771800227
+    f9819cba-ec72-48d4-b12c-f6c0154cd4e4: CZ5501000000000000000246
+
+adaa:
+  client:
+    baseUri: https://api.kb.cz/open/api/adaa/v1
+    apiKey:

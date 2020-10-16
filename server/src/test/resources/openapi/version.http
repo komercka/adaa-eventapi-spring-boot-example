@@ -1,0 +1,12 @@
+# OK
+
+GET {{baseBEUri}}/adaa-eventapi-example/version
+x-correlation-id: {{zipkinId}}
+
+###
+
+# Missing required x-correlation-id
+
+GET {{baseBEUri}}/adaa-eventapi-example/version
+
+###

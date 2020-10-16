@@ -1,0 +1,5 @@
+# OK
+
+GET {{baseBEUri}}/adaa-eventapi-example/actuator/health
+
+###

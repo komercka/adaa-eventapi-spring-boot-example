@@ -1,13 +1,33 @@
-# KB ADAA Notification Subscriber example
+# KB ADAA Event API example
 
 #### Links
 * [KB API Business portal](https://www.kb.cz/api)
 * [KB API Developer portal](https://api.kb.cz/open/apim/store)
-* [ADAA API technical manual (for production version)](https://www.kb.cz/getmedia/ffc70c65-cc28-4809-ad47-22b7b4361ce5/ADAA_Technical_manual_EN.pdf.aspx)
-* [ADAA API technical manual (for sandbox version)](https://www.kb.cz/getmedia/3662e39f-04af-4872-bf02-eda9c05a0c11/API_Sandbox_Account-Direct-Access-API-Manual_EN.pdf.aspx)
 
 ---
 
-The purpose of this SDK is to provide Java developers a simple interface
-to connect to the KB ADAA Event API.
-Developer can either use provided implementation of the interface or use it to build own implementation.
+This Java web application serves as a reference example, or an inspiration for developers who want to develop software based on the KB ADAA Event API. 
+This example is based on the Spring Boot framework.
+
+#### How to run
+1. Complete application properties located in the `./server/src/main/resources/application.yml` file
+
+2. You should build this project with Maven
+    ```
+    mvn clean install
+    ```
+    and then run the embedded Tomcat server using command in web maven module:
+    ```
+    mvn spring-boot:run
+    ```
+3. Or you can deploy a built `war` file to your own instance of the application server
+
+#### Description
+The ADAA Event API must be subscribed to the KB ADAA API.
+The ADAA Event API then receives a notification after each transaction, but no more than once every 5 minutes.
+
+---
+
+*If you still have any questions please contact a [KB API support team](mailto:api@kb.cz).*
+
+

@@ -1,0 +1,164 @@
+openapi: 3.0.0
+info:
+  title: "Event API"
+  description: "3rd party event API for receiving subscribed events."
+  version: '1.0'
+tags:
+  - name: Events
+  - name: Diagnostics
+
+security:
+  - ApiKeyAuth: [ ]
+
+paths:
+  /subscriptions/{subscriptionId}/events:
+    post:
+      tags:
+        - Events
+      summary: "Endpoint for receiving subscribed events"
+      description: "Endpoint for receiving subscribed events. Time-out response will result in the same scenario as HTTP 500 Status Code."
+      operationId: receiveEvent
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+        - $ref: '#/components/parameters/SubscriptionId'
+        - name: Accept-Language
+          in: header
+          description: "Language localization for response values."
+          schema:
+            type: string
+            enum:
+              - CZ
+              - EN
+            default: CZ
+            pattern: '^[A-Za-z]{2}$'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventPayload'
+      responses:
+        '204':
+          description: "Event received"
+        '400':
+          description: "Invalid request header/parameter (missing header/parameter or wrong header/parameter value)."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: "Error code results in halting event notifications. Subscription will be removed from subscriptions processing. Subscription will get status STOPPED."
+        '403':
+          description: "Error code results in halting event notifications. Subscription will be removed from subscriptions processing. Subscription will get status STOPPED."
+        '404':
+          description: "Unknown subscription ID. Error code results in halting event notifications. Subscription will be removed from subscriptions processing. Subscription will get status STOPPED."
+        '500':
+          description: "Unexpected internal server error. Error code results in halting event notifications for a period of time - circuit breaker will take place. Subscription will get status SUSPENDED. Repeated error response will result in the subscription being removed permanently, status STOPPED"
+  /version:
+    get:
+      summary: "API implementation version. Must return 1.0 for this API definition."
+      description: "API implementation version. Must return 1.0 for this API definition. Error HTTP status code or time-out response will result in new subscriptions being rejected."
+      operationId: getApiVersion
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+      tags:
+        - Diagnostics
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse'
+        '400':
+          description: "Invalid request header/parameter (missing header/parameter or wrong header/parameter value)."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: "New subscription will be rejected."
+        '403':
+          description: "New subscription will be rejected."
+        '404':
+          description: "API implementation not found. New subscription will be rejected."
+        '500':
+          description: "Unexpected internal server error. New subscription will be rejected."
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      description: "Event API authorization token - provided during creation of the subscription"
+      type: apiKey
+      name: x-api-key
+      in: header
+
+  parameters:
+    CorrelationId:
+      name: x-correlation-id
+      in: header
+      description: "Correlation ID represented as GUID 128-bit (8-4-4-4-12) is a generated unique identifier of the request, which stays the same through all the systems/applications involved. Its intended use is for troubleshooting purposes"
+      example: "71f415f4-412d-4c55-af05-15d1e0389f8f"
+      required: true
+      schema:
+        type: string
+        pattern: '^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$'
+    SubscriptionId:
+      name: subscriptionId
+      in: path
+      required: true
+      description: "Subscription ID. Format: GUID 128-bit: 8-4-4-4-12"
+      example: "71f415f4-412d-4c55-af05-15d1e0389f8f"
+      schema:
+        type: string
+        pattern: '^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$'
+
+  schemas:
+    EventPayload:
+      type: object
+      description: "Subscribed events payload"
+      properties:
+        eventCount:
+          description: "Number of events since the last events notification."
+          type: integer
+    VersionResponse:
+      type: object
+      description: "Version of the API"
+      properties:
+        version:
+          type: string
+          example: "1.0"
+          minLength: 3
+          maxLength: 5
+
+    ErrorResponse:
+      type: object
+      description: "The parent element contains a collection of all error states."
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      required:
+        - errors
+    Error:
+      type: object
+      description: "Specific error."
+      required:
+        - message
+      properties:
+        code:
+          type: string
+          description: "Optional error code (only for business exceptions)."
+        additionalInfo:
+          type: object
+          description: "Optional information about error. Contains additional information specific to a particular error."
+          properties:
+            parameterName:
+              type: string
+              description: "The input parameter name."
+            rejectedValue:
+              type: string
+              description: "Rejected value of the parameter"
+        message:
+          type: string
+          description: "Text description of the error. It is not meant to be interpreted to the end user but to enrich the error log."

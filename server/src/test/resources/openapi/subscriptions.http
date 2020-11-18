@@ -1,0 +1,33 @@
+# OK
+
+POST {{baseBEUri}}/adaa-eventapi-example/subscriptions/{{subscriptionId}}/events
+x-correlation-id: {{zipkinId}}
+Accept-Language: CZ
+Content-Type: application/json
+
+{
+  "eventCount": 5
+}
+
+###
+
+# Missing required x-correlation-id
+
+POST {{baseBEUri}}/adaa-eventapi-example/subscriptions/{{subscriptionId}}/events
+Accept-Language: CZ
+Content-Type: application/json
+
+{
+  "eventCount": 5
+}
+
+###
+
+# Missing body
+
+POST {{baseBEUri}}/adaa-eventapi-example/subscriptions/{{subscriptionId}}/events
+x-correlation-id: {{zipkinId}}
+Accept-Language: CZ
+Content-Type: application/json
+
+###

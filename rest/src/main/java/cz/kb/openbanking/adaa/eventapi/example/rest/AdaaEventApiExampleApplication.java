@@ -1,6 +1,5 @@
-package cz.kb.openbanking.adaa.eventapi.example.server;
+package cz.kb.openbanking.adaa.eventapi.example.rest;
 
-import cz.kb.openbanking.adaa.eventapi.example.PackageNameHolder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -14,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @since 1.0
  */
 @SpringBootApplication
-@ComponentScan(basePackageClasses = PackageNameHolder.class)
+@ComponentScan(basePackages = "cz.kb.openbanking.adaa.eventapi.example")
 public class AdaaEventApiExampleApplication extends SpringBootServletInitializer {
 
     @Override

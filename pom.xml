@@ -16,7 +16,6 @@
     <modules>
         <module>core</module>
         <module>rest</module>
-        <module>server</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -24,7 +23,7 @@
     <description>ADAA EventAPI Example</description>
 
     <properties>
-        <start-class>cz.kb.openbanking.adaa.eventapi.example.server.Application</start-class>
+        <start-class>cz.kb.openbanking.adaa.eventapi.example.rest.AdaaEventApiExampleApplication</start-class>
         <adaa.client.version>1.1.0</adaa.client.version>
         <docker.image.prefix>application</docker.image.prefix>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -80,6 +79,13 @@
                 <scope>system</scope>
                 <systemPath>${user.dir}/lib/adaa-client-spring-boot-auto-configuration-1.1.0.jar</systemPath>
             </dependency>
+            <dependency>
+                <groupId>cz.kb.openbanking.adaa.client</groupId>
+                <artifactId>jersey-impl</artifactId>
+                <version>1.1.0</version>
+                <scope>system</scope>
+                <systemPath>${user.dir}/lib/adaa-client-jersey-impl-1.1.0.jar</systemPath>
+            </dependency>
 
             <dependency>
                 <groupId>org.openapitools</groupId>
@@ -124,6 +130,11 @@
                 <groupId>org.iban4j</groupId>
                 <artifactId>iban4j</artifactId>
                 <version>3.2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -198,6 +209,7 @@
                 </executions>
                 <configuration>
                     <source>1.8</source>
+                    <detectJavaApiLink>false</detectJavaApiLink>
                 </configuration>
             </plugin>
         </plugins>

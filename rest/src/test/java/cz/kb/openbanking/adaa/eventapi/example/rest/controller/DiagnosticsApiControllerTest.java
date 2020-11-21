@@ -7,10 +7,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.UUID;
 
+import cz.kb.openbanking.adaa.client.api.AccountApi;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -26,6 +28,9 @@ public class DiagnosticsApiControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private AccountApi accountApi;
 
     /**
      * Tests correct request with all required headers.

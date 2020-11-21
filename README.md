@@ -18,7 +18,7 @@ This example is based on the Spring Boot framework.
     ```
     and then run the embedded Tomcat server using command in web maven module:
     ```
-    mvn spring-boot:run
+    mvn spring-boot:run -pl rest
     ```
 3. Or you can deploy a built `war` file to your own instance of the application server
 

@@ -38,6 +38,13 @@
         <openapi.debug>false</openapi.debug>
     </properties>
 
+    <scm>
+        <connection>scm:git:git@github.com:komercka/adaa-eventapi-spring-boot-example.git</connection>
+        <developerConnection>scm:git:git@github.com:komercka/adaa-eventapi-spring-boot-example.git</developerConnection>
+        <url>https://github.com/komercka/adaa-eventapi-spring-boot-example</url>
+        <tag>v@{project.version}</tag>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
